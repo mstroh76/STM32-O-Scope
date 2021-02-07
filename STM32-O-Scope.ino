@@ -10,7 +10,7 @@ Adafruit Libraries released under their specific licenses Copyright (c) 2013 Ada
 */
 
 #include "Adafruit_ILI9341_STM.h"
-#include "Adafruit_GFX_AS.h"
+#include "Adafruit_GFX.h"
 
 // Be sure to use the latest version of the SPI libraries see stm32duino.com - http://stm32duino.com/viewtopic.php?f=13&t=127
 #include <SPI.h>
@@ -108,7 +108,7 @@ variants/generic_stm32f103c/board/board.h:#define BOARD_SPI2_SCK_PIN        PB13
 //
 // SPI1_NSS  (PA4) (LQFP48 pin 14)    (n.c.)
 // SPI1_SCK  (PA5) (LQFP48 pin 15)    (Brown)
-// SPI1_MOSO (PA6) (LQFP48 pin 16)    (White)
+// SPI1_MISO (PA6) (LQFP48 pin 16)    (White)
 // SPI1_MOSI (PA7) (LQFP48 pin 17)    (Grey)
 //
 
@@ -208,6 +208,9 @@ void setup()
 {
 
   // BOARD_LED blinks on triggering assuming you have an LED on your board. If not simply dont't define it at the start of the sketch.
+  serial_debug.begin();
+  serial_debug.println("STM32-O-Scope");
+
 #if defined BOARD_LED
   pinMode(BOARD_LED, OUTPUT);
   digitalWrite(BOARD_LED, HIGH);
@@ -218,7 +221,6 @@ void setup()
   pinMode(TFT_LED, OUTPUT);
   digitalWrite(TFT_LED, HIGH);
 
-  serial_debug.begin();
   adc_calibrate(ADC1);
   adc_calibrate(ADC2);
   setADCs (); //Setup ADC peripherals for interleaved continuous mode.
@@ -1055,4 +1057,3 @@ void sleepMode()
   // disableClocks();
   asm("wfi");
 }
-
